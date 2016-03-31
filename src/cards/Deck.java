@@ -113,7 +113,8 @@ public class Deck {
         Deck[] split = splitDeck(2);
         split[0].reverseDeck();
         split[1].dovetailShuffle();
-
+        mergeDecks(split[0], split[1]);
+        dovetailShuffle();
     }
 
     /**
@@ -202,9 +203,16 @@ public class Deck {
         return splitDecks;
     }
 
-    public Deck mergeDecks(Deck deck1, Deck deck2) {
+    /**
+     * Merge 2 decks into 1
+     * @param deck1 First half of the deck
+     * @param deck2 Second half of the deck.
+     */
+    public void mergeDecks(Deck deck1, Deck deck2) {
+        Card[] newDeck = new Card[deck1.getCount() + deck2.getCount()];
+        for (int i = 0; i < deck1.getCount();i++){
 
-        return new Deck();
+        }
     }
 
     /**
