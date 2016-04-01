@@ -37,10 +37,10 @@ public class Deck {
 
     /**
      * Make a new deck from an array of cards
-     * @param deckPartial the array of cards to make a new deck with
+     * @param cardsToUse the array of cards to make a new deck with
      */
-    public Deck(Card[] deckPartial){
-        this.deck = deckPartial;
+    public Deck(Card[] cardsToUse){
+        setDeck(cardsToUse);
     }
 
     /**
@@ -99,8 +99,33 @@ public class Deck {
     }
 
     /**
+     * I personally don't see myself using this, but here it is just in case:
+     * Add a card to the last position of the deck (the bottom of the pile)
+     * @param toAdd the card to add to the deck.
+     * @return the card added to the deck or null if unsuccessful
+     */
+    public Card addCard(Card toAdd){
+        if (toAdd == null) return null;
+        else {
+            Card[] newDeck = new Card[deck.length + 1];
+            System.arraycopy(deck,0,newDeck,0,newDeck.length);
+            newDeck[newDeck.length-1] = toAdd;
+
+            return toAdd;
+        }
+    }
+
+    /**
+     * Set the deck to a specific set of cards.
+     * @param deck the book of cards to use as the deck.
+     */
+    private void setDeck(Card[] deck) {
+        this.deck = deck;
+    }
+
+    /**
      * Alternative way to simulate a real shuffle of the deck of cards -
-     * Take the deck and cut it half, third, quarter, third;
+     * Random shuffle, then take the deck and cut it half, third, quarter, third;
      * then, take the deck, split it, and apply that algorithm to
      * the deck segments. Rejoin the deck at the end.
      */
@@ -137,6 +162,10 @@ public class Deck {
      */
     public int getCount() {
         return deck.length;
+    }
+
+    public Card[] deckToCardArray(){
+        return deck;
     }
 
     @Override
@@ -179,7 +208,7 @@ public class Deck {
     }
 
     /**
-     * split the deck into sections
+     * split the deck into multiple decks semi-evenly.
      * @param divisor the amount of sections to split the deck into
      * @return an array of Decks containing the split deck
      */
@@ -195,7 +224,7 @@ public class Deck {
                 System.arraycopy(deck, 0, deckChunk, 0, deckChunk.length);
             } else {
                 deckChunk = new Card[deck.length /divisor];
-                System.arraycopy(deck, deck.length / divisor * j, deckChunk, 0, deckChunk.length);
+                System.arraycopy(deck, deck.length / divisor * j + 1, deckChunk, 0, deckChunk.length);
             }
             splitDecks[j] = new Deck(deckChunk);
         }
@@ -204,15 +233,29 @@ public class Deck {
     }
 
     /**
-     * Merge 2 decks into 1
-     * @param deck1 First half of the deck
-     * @param deck2 Second half of the deck.
+     * Merge several decks into 1; Static because this is independent of the 'deck' attribute
+     * @param decks the list of decks to merge
+     * @return a new deck that is the sum of all decks put into the arguments.
      */
-    public void mergeDecks(Deck deck1, Deck deck2) {
-        Card[] newDeck = new Card[deck1.getCount() + deck2.getCount()];
-        for (int i = 0; i < deck1.getCount();i++){
+    //TODO: Make more elegant later
+    public static Deck mergeDecks(Deck... decks) {
+        int deckSum = 0;
 
+        for (Deck d : decks){
+            deckSum += d.getCount();
         }
+
+        Card[] newDeck = new Card[deckSum];
+        int i = 0;
+
+        for (Deck d : decks){
+            for (Card c : d.deckToCardArray()){
+                newDeck[i] = c;
+                i++;
+            }
+        }
+
+        return new Deck(newDeck);
     }
 
     /**
