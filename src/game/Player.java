@@ -7,8 +7,8 @@ import cards.Card;
  */
 public class Player {
     private Card[] hand;
-    private Card[] wins;
-    private int score;
+    private int points; // Points are how many points you have in a round
+    private int score; // score is how many points in a game.
     private int playerID;
 
     public Player(int pid) {
@@ -38,12 +38,14 @@ public class Player {
         return card;
     }
 
-    public Card[] getWins() {
-        return wins;
+    //todo: make some sorting methods
+
+    public int getPoints() {
+        return points;
     }
 
-    public void setWins(Card[] wins) {
-        this.wins = wins;
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public int getScore() {
