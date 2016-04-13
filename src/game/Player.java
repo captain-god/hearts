@@ -5,7 +5,7 @@ import cards.Card;
 /**
  * A class representing a player of the game. A player is a human player.
  */
-public class Player {
+public abstract class Player {
     private Card[] hand;
     private int points; // Points are how many points you have in a round
     private int score; // score is how many points in a game.
@@ -38,7 +38,10 @@ public class Player {
         return card;
     }
 
-    //todo: make some sorting methods
+    public void resetForNewRound(){
+        this.points = 0;
+        this.hand = null;
+    }
 
     public int getPoints() {
         return points;
